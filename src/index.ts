@@ -17,7 +17,7 @@ export const run = async () => {
       throw new Error('GitHub token is required');
     }
 
-    const newBranchName = `${branchName}-recommendeders`;
+    const newBranchName = `${branchName}-ai-recommender`;
     const octokit = github.getOctokit(githubToken);
     const { owner, repo } = github.context.repo;
 

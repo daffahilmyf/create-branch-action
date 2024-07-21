@@ -90,7 +90,7 @@ describe("run", () => {
     expect(mockCreateRef).toHaveBeenCalledWith({
       owner: "owner",
       repo: "repo",
-      ref: "refs/heads/branch_name-recommendeders",
+      ref: "refs/heads/branch_name-ai-recommender",
       sha: "defaultBranchSha",
     });
 

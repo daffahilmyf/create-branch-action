@@ -45,7 +45,7 @@ const run = async () => {
         if (!githubToken) {
             throw new Error('GitHub token is required');
         }
-        const newBranchName = `${branchName}-recommendeders`;
+        const newBranchName = `${branchName}-recommenders`;
         const octokit = github.getOctokit(githubToken);
         const { owner, repo } = github.context.repo;
         console.log(`Owner: ${owner}, Repo: ${repo}`);
