@@ -49,22 +49,33 @@ const run = async () => {
         const octokit = github.getOctokit(githubToken);
         const { owner, repo } = github.context.repo;
         console.log(`Owner: ${owner}, Repo: ${repo}`);
-        const { data: repoData } = await octokit.rest.repos.get({
+        // Get the pull request number from the context
+        const pullRequestNumber = github.context.issue.number;
+        if (!pullRequestNumber) {
+            throw new Error('No pull request number found in the context');
+        }
+        // Fetch the pull request details
+        const { data: pullRequest } = await octokit.rest.pulls.get({
             owner,
             repo,
+            pull_number: pullRequestNumber,
         });
-        const defaultBranch = repoData.default_branch;
+        // The branch from which the pull request was created
+        const baseBranch = pullRequest.base.ref;
+        console.log(`Base branch of the PR: ${baseBranch}`);
+        // Get the SHA of the base branch
         const { data: refData } = await octokit.rest.git.getRef({
             owner,
             repo,
-            ref: `heads/${defaultBranch}`,
+            ref: `heads/${baseBranch}`,
         });
-        const defaultBranchSha = refData.object.sha;
+        const baseBranchSha = refData.object.sha;
+        // Create the new branch from the base branch
         await octokit.rest.git.createRef({
             owner,
             repo,
             ref: `refs/heads/${newBranchName}`,
-            sha: defaultBranchSha,
+            sha: baseBranchSha,
         });
         console.log(`Branch ${newBranchName} created successfully`);
     }
