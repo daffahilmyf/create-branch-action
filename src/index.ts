@@ -29,35 +29,49 @@ export const run = async () => {
       throw new Error('No pull request number found in the context');
     }
 
-    // Fetch the pull request details
-    const { data: pullRequest } = await octokit.rest.pulls.get({
-      owner,
-      repo,
-      pull_number: pullRequestNumber,
-    });
-
-    // The branch from which the pull request was created
-    const baseBranch = pullRequest.base.ref;
-    console.log(`Base branch of the PR: ${baseBranch}`);
+    console.log(`Base branch of the PR: ${branchName}`);
 
     // Get the SHA of the base branch
     const { data: refData } = await octokit.rest.git.getRef({
       owner,
       repo,
-      ref: `heads/${baseBranch}`,
+      ref: `heads/${branchName}`,
     });
 
     const baseBranchSha = refData.object.sha;
 
-    // Create the new branch from the base branch
-    await octokit.rest.git.createRef({
-      owner,
-      repo,
-      ref: `refs/heads/${newBranchName}`,
-      sha: baseBranchSha,
-    });
+    try {
+      // Check if the new branch already exists
+      await octokit.rest.git.getRef({
+        owner,
+        repo,
+        ref: `heads/${newBranchName}`,
+      });
 
-    console.log(`Branch ${newBranchName} created successfully`);
+      // If it exists, update it with a new commit
+      console.log(`Branch ${newBranchName} exists. Updating with a new commit.`);
+
+      await octokit.rest.git.updateRef({
+        owner,
+        repo,
+        ref: `heads/${newBranchName}`,
+        sha: baseBranchSha,
+      });
+
+      console.log(`Branch ${newBranchName} updated successfully.`);
+    } catch (error) {
+      // If the branch does not exist, create it
+      console.log(`Branch ${newBranchName} does not exist. Creating it.`);
+
+      await octokit.rest.git.createRef({
+        owner,
+        repo,
+        ref: `refs/heads/${newBranchName}`,
+        sha: baseBranchSha,
+      });
+
+      console.log(`Branch ${newBranchName} created successfully.`);
+    }
   } catch (exception) { 
     const error = exception as Error;
     core.setFailed(error.message);
