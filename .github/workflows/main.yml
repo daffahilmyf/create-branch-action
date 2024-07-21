@@ -1,0 +1,22 @@
+name: Create Branch Workflow
+
+on:
+  workflow_dispatch:
+    inputs:
+      branch_name:
+        description: 'Name of the new branch'
+        required: true
+
+jobs:
+  create_branch:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v3
+
+    - name: Create Branch
+      uses: daffahilmyf/create-branch-action@main
+      with:
+        branch_name: ${{ github.event.inputs.branch_name }}
+        token: ${{ secrets.GH_TOKEN }}
