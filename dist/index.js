@@ -62,21 +62,26 @@ const run = async () => {
         });
         if (getNewBranchRef.status === 200) {
             console.log(`Branch ${newBranchName} already exists`);
-            await octokit.rest.git.updateRef({
+            const response = await octokit.rest.git.updateRef({
                 owner,
                 repo,
                 ref: `heads/${newBranchName}`,
                 sha: defaultBranchSha,
             });
+            const message = response.status === 200 ? 'updated' : 'not updated';
+            console.log(`Branch ${newBranchName} is ${message}`);
             return;
         }
         console.log(`Branch ${newBranchName} does not exist`);
-        await octokit.rest.git.createRef({
+        const response = await octokit.rest.git.createRef({
             owner,
             repo,
             ref: `refs/heads/${newBranchName}`,
             sha: defaultBranchSha,
         });
+        if (response.status !== 201) {
+            throw new Error(`Failed to create branch ${newBranchName}`);
+        }
         console.log(`Branch ${newBranchName} created successfully`);
         return;
     }
