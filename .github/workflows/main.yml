@@ -15,6 +15,15 @@ jobs:
     - name: Checkout repository
       uses: actions/checkout@v3
 
+    - name: Determine Branch Name
+      id: determine-branch
+      run: |
+        if [ "${{ github.event_name }}" == "pull_request" ] && [ "${{ github.base_ref }}" == "main" ]; then
+          echo "branch_name=${{ github.head_ref }}" >> $GITHUB_ENV
+        else
+          echo "branch_name=${{ github.event.inputs.branch_name }}" >> $GITHUB_ENV
+        fi
+
     - name: Create Branch
       uses: daffahilmyf/create-branch-action@main
       with:
