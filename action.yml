@@ -1,19 +1,16 @@
-name: "Label new pull requests"
-description: "Add a label when a new PR is opened."
-author: "Leonardo Montini"
-
+name: 'Create Recommended Branch'
+description: 'Creates a new branch with a recommended suffix based on the input branch name'
+author: 'daffahilmyf'
 inputs:
-  gh-token:
-    description: 'The GitHub token for authentication.'
+  branch_name:
+    description: 'The name of the branch to base the new branch on'
     required: true
-  label:
-    description: 'The label to be applied to the pull request.'
+  token:
+    description: 'GitHub token for authentication'
     required: true
-
 runs:
-  using: "node16"
-  main: "dist/index.js"
-
+  using: 'node12'
+  main: 'dist/index.js'
 branding:
-  icon: 'activity'
-  color: 'green'
+  color: 'blue'
+  icon: 'git-branch'
