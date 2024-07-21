@@ -1,3 +1,3 @@
-# ga-label-issue
+# create-branch-action
 
 Add a label on new PRs
