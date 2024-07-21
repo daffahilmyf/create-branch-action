@@ -68,12 +68,15 @@ const run = async () => {
         });
         console.log(`Branch ${newBranchName} created successfully`);
     }
-    catch (error) { // eslint-disable-line @typescript-eslint/no-explicit-any
+    catch (exception) {
+        const error = exception;
         core.setFailed(error.message);
     }
 };
 exports.run = run;
-(0, exports.run)();
+if (!process.env.JEST_WORKER_ID) {
+    (0, exports.run)();
+}
 
 
 /***/ }),

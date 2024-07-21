@@ -1,3 +1,5 @@
+// eslint-disable
+
 import { run } from "../index";
 import { getInput, setFailed } from "@actions/core";
 import { getOctokit } from "@actions/github";

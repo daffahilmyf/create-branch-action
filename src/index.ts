@@ -46,7 +46,8 @@ export const run = async () => {
     });
 
     console.log(`Branch ${newBranchName} created successfully`);
-  } catch (error: any) { // eslint-disable-line @typescript-eslint/no-explicit-any
+  } catch (exception) { 
+    const error = exception as Error;
     core.setFailed(error.message);
   }
 };
