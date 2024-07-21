@@ -55,35 +55,39 @@ const run = async () => {
             ref: `heads/${branchName}`,
         });
         const defaultBranchSha = refData.object.sha;
-        const getNewBranchRef = await octokit.rest.git.getRef({
-            owner,
-            repo,
-            ref: `heads/${newBranchName}`,
-        });
-        if (getNewBranchRef.status === 200) {
-            console.log(`Branch ${newBranchName} already exists`);
-            const response = await octokit.rest.git.updateRef({
+        try {
+            const getBranchRef = await octokit.rest.git.getRef({
                 owner,
                 repo,
                 ref: `heads/${newBranchName}`,
+            });
+            if (getBranchRef.status === 200) {
+                console.log(`Branch ${newBranchName} already exists`);
+                const response = await octokit.rest.git.updateRef({
+                    owner,
+                    repo,
+                    ref: `heads/${newBranchName}`,
+                    sha: defaultBranchSha,
+                });
+                const message = response.status === 200 ? 'updated' : 'not updated';
+                console.log(`Branch ${newBranchName} is ${message}`);
+                return;
+            }
+        }
+        catch (e) {
+            console.log(`Branch ${newBranchName} does not exist`);
+            const response = await octokit.rest.git.createRef({
+                owner,
+                repo,
+                ref: `refs/heads/${newBranchName}`,
                 sha: defaultBranchSha,
             });
-            const message = response.status === 200 ? 'updated' : 'not updated';
-            console.log(`Branch ${newBranchName} is ${message}`);
+            if (response.status !== 201) {
+                throw new Error(`Failed to create branch ${newBranchName}`);
+            }
+            console.log(`Branch ${newBranchName} created successfully`);
             return;
         }
-        console.log(`Branch ${newBranchName} does not exist`);
-        const response = await octokit.rest.git.createRef({
-            owner,
-            repo,
-            ref: `refs/heads/${newBranchName}`,
-            sha: defaultBranchSha,
-        });
-        if (response.status !== 201) {
-            throw new Error(`Failed to create branch ${newBranchName}`);
-        }
-        console.log(`Branch ${newBranchName} created successfully`);
-        return;
     }
     catch (exception) {
         const error = exception;
