@@ -40,15 +40,15 @@ const run =  async (): Promise<void> => {
     }
 
     const content = `
-    # This is a test file
+# This is a test file
 
-    def bitcount(n):
-    count = 0
-    while n:
-        n ^= n - 1
-        count += 1
-    return count
-    `.trim();
+def bitcount(n):
+  count = 0
+  while n:
+      n ^= n - 1
+      count += 1
+  return count
+    `;
     
 
     await octokit.rest.repos.createOrUpdateFileContents({
