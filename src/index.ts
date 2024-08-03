@@ -24,35 +24,29 @@ const run =  async (): Promise<void> => {
   try {
     const branchName = getBranchName();
     const githubToken = getGitHubToken();
-    const openaiKey = getOpenAIKey();
-    const assistantId = getAssisstantId();
-    const testFolderPath = getTestFolderBasePath();
-    const programFolderPath = getProgramFolderBasePath();
+    // const openaiKey = getOpenAIKey();
+    // const assistantId = getAssisstantId();
+    // const testFolderPath = getTestFolderBasePath();
+    // const programFolderPath = getProgramFolderBasePath();
 
-    console.log(`Branch name: ${branchName}`);
-    console.log(`GitHub token: ${githubToken}`);
-    console.log(`OpenAI key: ${openaiKey}`);
-    console.log(`Assistant ID: ${assistantId}`);
-    console.log(`Test folder path: ${testFolderPath}`);
-    console.log(`Program folder path: ${programFolderPath}`);
-    
-    // const newBranchName = `${branchName}-ai-recommender`;
 
-    // logInputs(branchName, githubToken);
+    const newBranchName = `${branchName}-ai-recommender`;
 
-    // const octokit = github.getOctokit(githubToken);
-    // const { owner, repo } = github.context.repo;
-    // const defaultBranchSha = await getDefaultBranchSha(octokit, owner, repo, branchName);
+    logInputs(branchName, githubToken);
 
-    // const isBranchExist = await verifyBranchExistence(octokit, owner, repo, newBranchName);
+    const octokit = github.getOctokit(githubToken);
+    const { owner, repo } = github.context.repo;
+    const defaultBranchSha = await getDefaultBranchSha(octokit, owner, repo, branchName);
 
-    // if (isBranchExist) {
-    //   console.log(`Branch ${newBranchName} already exists`);
-    //   await updateBranch(octokit, owner, repo, newBranchName, defaultBranchSha);
-    // } else {
-    //   console.log(`Branch ${newBranchName} does not exist`);
-    //   await createBranch(octokit, owner, repo, newBranchName, defaultBranchSha);
-    // }
+    const isBranchExist = await verifyBranchExistence(octokit, owner, repo, newBranchName);
+
+    if (isBranchExist) {
+      console.log(`Branch ${newBranchName} already exists`);
+      await updateBranch(octokit, owner, repo, newBranchName, defaultBranchSha);
+    } else {
+      console.log(`Branch ${newBranchName} does not exist`);
+      await createBranch(octokit, owner, repo, newBranchName, defaultBranchSha);
+    }
 
 
   } catch (exception) {
