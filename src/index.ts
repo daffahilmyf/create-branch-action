@@ -1,7 +1,7 @@
 import * as core from "@actions/core";
 import * as github from "@actions/github";
 import fs from 'fs';
-
+import path from 'path';
 import {
   createBranch,
   getActionInput,
@@ -38,7 +38,9 @@ const run =  async (): Promise<void> => {
       await createBranch(octokit, owner, repo, newBranchName, defaultBranchSha);
     }
 
-    const content = fs.readFileSync("./example/test.py", {encoding: 'utf8'});
+    const filePath = path.resolve(__dirname, 'example', 'test.py');
+
+    const content = fs.readFileSync(filePath, {encoding: 'utf8'});
 
     
 
