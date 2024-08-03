@@ -216,8 +216,8 @@ const run = async () => {
         await octokit.rest.repos.createOrUpdateFileContents({
             owner,
             repo,
-            path: 'test.txt',
-            message: 'Create test.txt',
+            path: 'test.py',
+            message: 'Create test.py',
             content: Buffer.from(content).toString('base64'),
             branch: newBranchName,
             force: true,
