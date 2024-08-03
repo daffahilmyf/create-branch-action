@@ -40,7 +40,7 @@ const run =  async (): Promise<void> => {
 
     const filePath = path.resolve('src/example/test.py', 'utf8');
     
-    const content = fs.readFileSync(filePath, 'utf8');
+    const content = fs.readFileSync(filePath, {encoding: 'utf8'});
 
     
 
