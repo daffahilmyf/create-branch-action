@@ -23,7 +23,7 @@ exports["default"] = async (octokit, owner, repo, newBranchName, sha) => {
 
 /***/ }),
 
-/***/ 7251:
+/***/ 6487:
 /***/ (function(__unused_webpack_module, exports, __nccwpck_require__) {
 
 "use strict";
@@ -53,53 +53,12 @@ var __importStar = (this && this.__importStar) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 const core = __importStar(__nccwpck_require__(2186));
-exports["default"] = () => {
-    const assistantID = core.getInput('assistant_id');
-    if (!assistantID) {
-        throw new Error('Assistant ID is required');
+exports["default"] = (inputName) => {
+    const input = core.getInput('inputName');
+    if (!input) {
+        throw new Error(`${inputName} is required`);
     }
-    return assistantID;
-};
-
-
-/***/ }),
-
-/***/ 3893:
-/***/ (function(__unused_webpack_module, exports, __nccwpck_require__) {
-
-"use strict";
-
-var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    var desc = Object.getOwnPropertyDescriptor(m, k);
-    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
-      desc = { enumerable: true, get: function() { return m[k]; } };
-    }
-    Object.defineProperty(o, k2, desc);
-}) : (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    o[k2] = m[k];
-}));
-var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
-    Object.defineProperty(o, "default", { enumerable: true, value: v });
-}) : function(o, v) {
-    o["default"] = v;
-});
-var __importStar = (this && this.__importStar) || function (mod) {
-    if (mod && mod.__esModule) return mod;
-    var result = {};
-    if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
-    __setModuleDefault(result, mod);
-    return result;
-};
-Object.defineProperty(exports, "__esModule", ({ value: true }));
-const core = __importStar(__nccwpck_require__(2186));
-exports["default"] = () => {
-    const branchName = core.getInput('branch_name');
-    if (!branchName) {
-        throw new Error('Branch name is required');
-    }
-    return branchName;
+    return input;
 };
 
 
@@ -112,176 +71,12 @@ exports["default"] = () => {
 
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports["default"] = async (octokit, owner, repo, branchName) => {
-    const { data: refData } = await octokit.rest.git.getRef({
+    const { data } = await octokit.rest.git.getRef({
         owner,
         repo,
         ref: `heads/${branchName}`,
     });
-    return refData.object.sha;
-};
-
-
-/***/ }),
-
-/***/ 9070:
-/***/ (function(__unused_webpack_module, exports, __nccwpck_require__) {
-
-"use strict";
-
-var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    var desc = Object.getOwnPropertyDescriptor(m, k);
-    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
-      desc = { enumerable: true, get: function() { return m[k]; } };
-    }
-    Object.defineProperty(o, k2, desc);
-}) : (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    o[k2] = m[k];
-}));
-var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
-    Object.defineProperty(o, "default", { enumerable: true, value: v });
-}) : function(o, v) {
-    o["default"] = v;
-});
-var __importStar = (this && this.__importStar) || function (mod) {
-    if (mod && mod.__esModule) return mod;
-    var result = {};
-    if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
-    __setModuleDefault(result, mod);
-    return result;
-};
-Object.defineProperty(exports, "__esModule", ({ value: true }));
-const core = __importStar(__nccwpck_require__(2186));
-exports["default"] = () => {
-    const githubToken = core.getInput('token');
-    if (!githubToken) {
-        throw new Error('GitHub token is required');
-    }
-    return githubToken;
-};
-
-
-/***/ }),
-
-/***/ 703:
-/***/ (function(__unused_webpack_module, exports, __nccwpck_require__) {
-
-"use strict";
-
-var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    var desc = Object.getOwnPropertyDescriptor(m, k);
-    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
-      desc = { enumerable: true, get: function() { return m[k]; } };
-    }
-    Object.defineProperty(o, k2, desc);
-}) : (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    o[k2] = m[k];
-}));
-var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
-    Object.defineProperty(o, "default", { enumerable: true, value: v });
-}) : function(o, v) {
-    o["default"] = v;
-});
-var __importStar = (this && this.__importStar) || function (mod) {
-    if (mod && mod.__esModule) return mod;
-    var result = {};
-    if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
-    __setModuleDefault(result, mod);
-    return result;
-};
-Object.defineProperty(exports, "__esModule", ({ value: true }));
-const core = __importStar(__nccwpck_require__(2186));
-exports["default"] = () => {
-    const apiKey = core.getInput('openai_key');
-    if (!apiKey) {
-        throw new Error('Open AI API key is required');
-    }
-    return apiKey;
-};
-
-
-/***/ }),
-
-/***/ 9873:
-/***/ (function(__unused_webpack_module, exports, __nccwpck_require__) {
-
-"use strict";
-
-var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    var desc = Object.getOwnPropertyDescriptor(m, k);
-    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
-      desc = { enumerable: true, get: function() { return m[k]; } };
-    }
-    Object.defineProperty(o, k2, desc);
-}) : (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    o[k2] = m[k];
-}));
-var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
-    Object.defineProperty(o, "default", { enumerable: true, value: v });
-}) : function(o, v) {
-    o["default"] = v;
-});
-var __importStar = (this && this.__importStar) || function (mod) {
-    if (mod && mod.__esModule) return mod;
-    var result = {};
-    if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
-    __setModuleDefault(result, mod);
-    return result;
-};
-Object.defineProperty(exports, "__esModule", ({ value: true }));
-const core = __importStar(__nccwpck_require__(2186));
-exports["default"] = () => {
-    const folderPath = core.getInput('program_folder_base_path');
-    if (!folderPath) {
-        throw new Error('Program folder is required');
-    }
-    return folderPath;
-};
-
-
-/***/ }),
-
-/***/ 4997:
-/***/ (function(__unused_webpack_module, exports, __nccwpck_require__) {
-
-"use strict";
-
-var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    var desc = Object.getOwnPropertyDescriptor(m, k);
-    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
-      desc = { enumerable: true, get: function() { return m[k]; } };
-    }
-    Object.defineProperty(o, k2, desc);
-}) : (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    o[k2] = m[k];
-}));
-var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
-    Object.defineProperty(o, "default", { enumerable: true, value: v });
-}) : function(o, v) {
-    o["default"] = v;
-});
-var __importStar = (this && this.__importStar) || function (mod) {
-    if (mod && mod.__esModule) return mod;
-    var result = {};
-    if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
-    __setModuleDefault(result, mod);
-    return result;
-};
-Object.defineProperty(exports, "__esModule", ({ value: true }));
-const core = __importStar(__nccwpck_require__(2186));
-exports["default"] = () => {
-    const folderPath = core.getInput('test_folder_base_path');
-    if (!folderPath) {
-        throw new Error('Test folder is required');
-    }
-    return folderPath;
+    return data.object.sha;
 };
 
 
@@ -296,27 +91,17 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", ({ value: true }));
-exports.verifyBranchExistence = exports.updateBranch = exports.getTestFolderBasePath = exports.getProgramFolderBasePath = exports.getOpenAIKey = exports.getGitHubToken = exports.getDefaultBranchSha = exports.getBranchName = exports.getAssisstantId = exports.createBranch = void 0;
+exports.getActionInput = exports.verifyBranchExistence = exports.updateBranch = exports.getDefaultBranchSha = exports.createBranch = void 0;
 const createBranch_1 = __importDefault(__nccwpck_require__(3298));
 exports.createBranch = createBranch_1.default;
-const getAssisstantId_1 = __importDefault(__nccwpck_require__(7251));
-exports.getAssisstantId = getAssisstantId_1.default;
-const getBranchName_1 = __importDefault(__nccwpck_require__(3893));
-exports.getBranchName = getBranchName_1.default;
 const getDefaultBranchSha_1 = __importDefault(__nccwpck_require__(134));
 exports.getDefaultBranchSha = getDefaultBranchSha_1.default;
-const getGithubToken_1 = __importDefault(__nccwpck_require__(9070));
-exports.getGitHubToken = getGithubToken_1.default;
-const getOpenAIKey_1 = __importDefault(__nccwpck_require__(703));
-exports.getOpenAIKey = getOpenAIKey_1.default;
-const getProgramFolderBasePath_1 = __importDefault(__nccwpck_require__(9873));
-exports.getProgramFolderBasePath = getProgramFolderBasePath_1.default;
-const getTestFolderBasePath_1 = __importDefault(__nccwpck_require__(4997));
-exports.getTestFolderBasePath = getTestFolderBasePath_1.default;
 const updateBranch_1 = __importDefault(__nccwpck_require__(547));
 exports.updateBranch = updateBranch_1.default;
 const verifyBranchExistence_1 = __importDefault(__nccwpck_require__(2205));
 exports.verifyBranchExistence = verifyBranchExistence_1.default;
+const getActionInput_1 = __importDefault(__nccwpck_require__(6487));
+exports.getActionInput = getActionInput_1.default;
 
 
 /***/ }),
@@ -392,9 +177,14 @@ var __importStar = (this && this.__importStar) || function (mod) {
     __setModuleDefault(result, mod);
     return result;
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 const core = __importStar(__nccwpck_require__(2186));
 const github = __importStar(__nccwpck_require__(5438));
+const fs_1 = __importDefault(__nccwpck_require__(7147));
+const path_1 = __importDefault(__nccwpck_require__(1017));
 const runners_1 = __nccwpck_require__(5670);
 const logInputs = (branchName, githubToken) => {
     console.log(`Branch name: ${branchName}`);
@@ -402,18 +192,16 @@ const logInputs = (branchName, githubToken) => {
 };
 const run = async () => {
     try {
-        const branchName = (0, runners_1.getBranchName)();
-        const githubToken = (0, runners_1.getGitHubToken)();
-        // const openaiKey = getOpenAIKey();
-        // const assistantId = getAssisstantId();
-        // const testFolderPath = getTestFolderBasePath();
-        // const programFolderPath = getProgramFolderBasePath();
+        const branchName = (0, runners_1.getActionInput)('branch_name');
+        const githubToken = (0, runners_1.getActionInput)('token');
         const newBranchName = `${branchName}-ai-recommender`;
         logInputs(branchName, githubToken);
         const octokit = github.getOctokit(githubToken);
         const { owner, repo } = github.context.repo;
         const defaultBranchSha = await (0, runners_1.getDefaultBranchSha)(octokit, owner, repo, branchName);
         const isBranchExist = await (0, runners_1.verifyBranchExistence)(octokit, owner, repo, newBranchName);
+        const filePath = path_1.default.resolve("test.txt");
+        fs_1.default.writeFileSync(filePath, 'Hello World!');
         if (isBranchExist) {
             console.log(`Branch ${newBranchName} already exists`);
             await (0, runners_1.updateBranch)(octokit, owner, repo, newBranchName, defaultBranchSha);

@@ -1,19 +1,14 @@
 import * as core from "@actions/core";
 import * as github from "@actions/github";
+import fs from "fs";
+import path from "path";
 import {
   createBranch,
-  getAssisstantId,
-  getBranchName,
+  getActionInput,
   getDefaultBranchSha,
-  getGitHubToken,
-  getOpenAIKey,
-  getProgramFolderBasePath,
-  getTestFolderBasePath,
   updateBranch,
   verifyBranchExistence 
 } from './domain/runners';
-
-
 
 const logInputs = (branchName: string, githubToken: string): void => {
   console.log(`Branch name: ${branchName}`);
@@ -22,13 +17,8 @@ const logInputs = (branchName: string, githubToken: string): void => {
 
 const run =  async (): Promise<void> => {
   try {
-    const branchName = getBranchName();
-    const githubToken = getGitHubToken();
-    // const openaiKey = getOpenAIKey();
-    // const assistantId = getAssisstantId();
-    // const testFolderPath = getTestFolderBasePath();
-    // const programFolderPath = getProgramFolderBasePath();
-
+    const branchName = getActionInput('branch_name');
+    const githubToken = getActionInput('token');
 
     const newBranchName = `${branchName}-ai-recommender`;
 
@@ -40,6 +30,10 @@ const run =  async (): Promise<void> => {
 
     const isBranchExist = await verifyBranchExistence(octokit, owner, repo, newBranchName);
 
+    const filePath = path.resolve("test.txt");
+
+    fs.writeFileSync(filePath, 'Hello World!');
+
     if (isBranchExist) {
       console.log(`Branch ${newBranchName} already exists`);
       await updateBranch(octokit, owner, repo, newBranchName, defaultBranchSha);
@@ -47,6 +41,8 @@ const run =  async (): Promise<void> => {
       console.log(`Branch ${newBranchName} does not exist`);
       await createBranch(octokit, owner, repo, newBranchName, defaultBranchSha);
     }
+
+
 
 
   } catch (exception) {
