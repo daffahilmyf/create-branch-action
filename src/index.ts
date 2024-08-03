@@ -30,9 +30,15 @@ const run =  async (): Promise<void> => {
 
     const isBranchExist = await verifyBranchExistence(octokit, owner, repo, newBranchName);
 
-    const filePath = path.resolve("test.txt");
-
-    fs.writeFileSync(filePath, 'Hello World!');
+    await octokit.rest.repos.createOrUpdateFileContents({
+      owner,
+      repo,
+      path: 'test.txt',
+      message: 'Create test.txt',
+      content: Buffer.from('Hello World').toString('base64'),
+      branch: newBranchName,
+      sha: defaultBranchSha
+    })
 
     if (isBranchExist) {
       console.log(`Branch ${newBranchName} already exists`);
@@ -41,8 +47,6 @@ const run =  async (): Promise<void> => {
       console.log(`Branch ${newBranchName} does not exist`);
       await createBranch(octokit, owner, repo, newBranchName, defaultBranchSha);
     }
-
-
 
 
   } catch (exception) {

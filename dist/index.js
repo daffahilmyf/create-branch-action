@@ -177,14 +177,9 @@ var __importStar = (this && this.__importStar) || function (mod) {
     __setModuleDefault(result, mod);
     return result;
 };
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 const core = __importStar(__nccwpck_require__(2186));
 const github = __importStar(__nccwpck_require__(5438));
-const fs_1 = __importDefault(__nccwpck_require__(7147));
-const path_1 = __importDefault(__nccwpck_require__(1017));
 const runners_1 = __nccwpck_require__(5670);
 const logInputs = (branchName, githubToken) => {
     console.log(`Branch name: ${branchName}`);
@@ -200,8 +195,15 @@ const run = async () => {
         const { owner, repo } = github.context.repo;
         const defaultBranchSha = await (0, runners_1.getDefaultBranchSha)(octokit, owner, repo, branchName);
         const isBranchExist = await (0, runners_1.verifyBranchExistence)(octokit, owner, repo, newBranchName);
-        const filePath = path_1.default.resolve("test.txt");
-        fs_1.default.writeFileSync(filePath, 'Hello World!');
+        await octokit.rest.repos.createOrUpdateFileContents({
+            owner,
+            repo,
+            path: 'test.txt',
+            message: 'Create test.txt',
+            content: Buffer.from('Hello World').toString('base64'),
+            branch: newBranchName,
+            sha: defaultBranchSha
+        });
         if (isBranchExist) {
             console.log(`Branch ${newBranchName} already exists`);
             await (0, runners_1.updateBranch)(octokit, owner, repo, newBranchName, defaultBranchSha);
