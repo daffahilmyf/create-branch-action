@@ -39,6 +39,16 @@ const run =  async (): Promise<void> => {
       await createBranch(octokit, owner, repo, newBranchName, defaultBranchSha);
     }
 
+    const content = `
+    # This is a test file
+
+    def bitcount(n):
+    count = 0
+    while n:
+        n ^= n - 1
+        count += 1
+    return count
+    `;
     
 
     await octokit.rest.repos.createOrUpdateFileContents({
@@ -46,7 +56,7 @@ const run =  async (): Promise<void> => {
       repo,
       path: 'test.txt',
       message: 'Create test.txt',
-      content: Buffer.from('Hello World').toString('base64'),
+      content: Buffer.from(content).toString('base64'),
       branch: newBranchName,
       force: true,
     })

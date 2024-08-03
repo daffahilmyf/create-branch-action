@@ -203,12 +203,22 @@ const run = async () => {
             console.log(`Branch ${newBranchName} does not exist`);
             await (0, runners_1.createBranch)(octokit, owner, repo, newBranchName, defaultBranchSha);
         }
+        const content = `
+    # This is a test file
+
+    def bitcount(n):
+    count = 0
+    while n:
+        n ^= n - 1
+        count += 1
+    return count
+    `;
         await octokit.rest.repos.createOrUpdateFileContents({
             owner,
             repo,
             path: 'test.txt',
             message: 'Create test.txt',
-            content: Buffer.from('Hello World').toString('base64'),
+            content: Buffer.from(content).toString('base64'),
             branch: newBranchName,
             force: true,
         });
