@@ -209,7 +209,8 @@ const run = async () => {
             path: 'test.txt',
             message: 'Create test.txt',
             content: Buffer.from('Hello World').toString('base64'),
-            branch: newBranchName
+            branch: newBranchName,
+            force: true,
         });
     }
     catch (exception) {
