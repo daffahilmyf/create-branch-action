@@ -47,8 +47,7 @@ const run =  async (): Promise<void> => {
       path: 'test.txt',
       message: 'Create test.txt',
       content: Buffer.from('Hello World').toString('base64'),
-      branch: newBranchName,
-      sha: defaultBranchSha
+      branch: newBranchName
     })
 
 
