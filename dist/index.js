@@ -212,7 +212,7 @@ const run = async () => {
         n ^= n - 1
         count += 1
     return count
-    `;
+    `.trim();
         await octokit.rest.repos.createOrUpdateFileContents({
             owner,
             repo,
