@@ -184,7 +184,6 @@ Object.defineProperty(exports, "__esModule", ({ value: true }));
 const core = __importStar(__nccwpck_require__(2186));
 const github = __importStar(__nccwpck_require__(5438));
 const fs_1 = __importDefault(__nccwpck_require__(7147));
-const path_1 = __importDefault(__nccwpck_require__(1017));
 const runners_1 = __nccwpck_require__(5670);
 const logInputs = (branchName, githubToken) => {
     console.log(`Branch name: ${branchName}`);
@@ -208,8 +207,7 @@ const run = async () => {
             console.log(`Branch ${newBranchName} does not exist`);
             await (0, runners_1.createBranch)(octokit, owner, repo, newBranchName, defaultBranchSha);
         }
-        const filePath = path_1.default.resolve('src/example/test.py');
-        const content = fs_1.default.readFileSync(filePath, { encoding: 'utf8' });
+        const content = fs_1.default.readFileSync("./example/test.py", { encoding: 'utf8' });
         await octokit.rest.repos.createOrUpdateFileContents({
             owner,
             repo,
