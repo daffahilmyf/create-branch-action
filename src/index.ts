@@ -1,7 +1,6 @@
 import * as core from "@actions/core";
 import * as github from "@actions/github";
-import fs from "fs";
-import path from "path";
+
 import {
   createBranch,
   getActionInput,
@@ -30,6 +29,18 @@ const run =  async (): Promise<void> => {
 
     const isBranchExist = await verifyBranchExistence(octokit, owner, repo, newBranchName);
 
+
+
+    if (isBranchExist) {
+      console.log(`Branch ${newBranchName} already exists`);
+      await updateBranch(octokit, owner, repo, newBranchName, defaultBranchSha);
+    } else {
+      console.log(`Branch ${newBranchName} does not exist`);
+      await createBranch(octokit, owner, repo, newBranchName, defaultBranchSha);
+    }
+
+    
+
     await octokit.rest.repos.createOrUpdateFileContents({
       owner,
       repo,
@@ -40,13 +51,7 @@ const run =  async (): Promise<void> => {
       sha: defaultBranchSha
     })
 
-    if (isBranchExist) {
-      console.log(`Branch ${newBranchName} already exists`);
-      await updateBranch(octokit, owner, repo, newBranchName, defaultBranchSha);
-    } else {
-      console.log(`Branch ${newBranchName} does not exist`);
-      await createBranch(octokit, owner, repo, newBranchName, defaultBranchSha);
-    }
+
 
 
   } catch (exception) {

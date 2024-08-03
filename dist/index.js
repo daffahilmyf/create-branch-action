@@ -195,6 +195,14 @@ const run = async () => {
         const { owner, repo } = github.context.repo;
         const defaultBranchSha = await (0, runners_1.getDefaultBranchSha)(octokit, owner, repo, branchName);
         const isBranchExist = await (0, runners_1.verifyBranchExistence)(octokit, owner, repo, newBranchName);
+        if (isBranchExist) {
+            console.log(`Branch ${newBranchName} already exists`);
+            await (0, runners_1.updateBranch)(octokit, owner, repo, newBranchName, defaultBranchSha);
+        }
+        else {
+            console.log(`Branch ${newBranchName} does not exist`);
+            await (0, runners_1.createBranch)(octokit, owner, repo, newBranchName, defaultBranchSha);
+        }
         await octokit.rest.repos.createOrUpdateFileContents({
             owner,
             repo,
@@ -204,14 +212,6 @@ const run = async () => {
             branch: newBranchName,
             sha: defaultBranchSha
         });
-        if (isBranchExist) {
-            console.log(`Branch ${newBranchName} already exists`);
-            await (0, runners_1.updateBranch)(octokit, owner, repo, newBranchName, defaultBranchSha);
-        }
-        else {
-            console.log(`Branch ${newBranchName} does not exist`);
-            await (0, runners_1.createBranch)(octokit, owner, repo, newBranchName, defaultBranchSha);
-        }
     }
     catch (exception) {
         const error = exception;
