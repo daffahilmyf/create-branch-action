@@ -8,6 +8,18 @@ inputs:
   token:
     description: 'GitHub token for authentication'
     required: true
+  assistant_id:
+    description: 'The ID of the assistant to use'
+    required: true
+  openai_key:
+    description: 'OpenAI API'
+    required: true
+  program_folder_base_path:
+    description: 'Program path that want to be checked by AI'
+    required: true
+  test_folder_base_path:
+    description: 'Test path that used to test the program'
+    required: true
 runs:
   using: 'node20'
   main: 'dist/index.js'
