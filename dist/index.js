@@ -54,7 +54,7 @@ var __importStar = (this && this.__importStar) || function (mod) {
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 const core = __importStar(__nccwpck_require__(2186));
 exports["default"] = (inputName) => {
-    const input = core.getInput('inputName');
+    const input = core.getInput(inputName);
     if (!input) {
         throw new Error(`${inputName} is required`);
     }
