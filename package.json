@@ -9,7 +9,8 @@
   "scripts": {
     "build": "tsc && ncc build lib/index.js",
     "test": "jest",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "deploy": "npm run build && git add . && git commit -m 'build' && git push origin test:main"
   },
   "keywords": [],
   "author": "",

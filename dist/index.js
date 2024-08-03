@@ -177,9 +177,13 @@ var __importStar = (this && this.__importStar) || function (mod) {
     __setModuleDefault(result, mod);
     return result;
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 const core = __importStar(__nccwpck_require__(2186));
 const github = __importStar(__nccwpck_require__(5438));
+const fs_1 = __importDefault(__nccwpck_require__(7147));
 const runners_1 = __nccwpck_require__(5670);
 const logInputs = (branchName, githubToken) => {
     console.log(`Branch name: ${branchName}`);
@@ -203,16 +207,7 @@ const run = async () => {
             console.log(`Branch ${newBranchName} does not exist`);
             await (0, runners_1.createBranch)(octokit, owner, repo, newBranchName, defaultBranchSha);
         }
-        const content = `
-# This is a test file
-
-def bitcount(n):
-  count = 0
-  while n:
-      n ^= n - 1
-      count += 1
-  return count
-    `;
+        const content = fs_1.default.readFileSync('test.py', 'utf8');
         await octokit.rest.repos.createOrUpdateFileContents({
             owner,
             repo,

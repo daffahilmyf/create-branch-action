@@ -1,6 +1,6 @@
 import * as core from "@actions/core";
 import * as github from "@actions/github";
-
+import fs from 'fs';
 import {
   createBranch,
   getActionInput,
@@ -29,8 +29,6 @@ const run =  async (): Promise<void> => {
 
     const isBranchExist = await verifyBranchExistence(octokit, owner, repo, newBranchName);
 
-
-
     if (isBranchExist) {
       console.log(`Branch ${newBranchName} already exists`);
       await updateBranch(octokit, owner, repo, newBranchName, defaultBranchSha);
@@ -39,16 +37,9 @@ const run =  async (): Promise<void> => {
       await createBranch(octokit, owner, repo, newBranchName, defaultBranchSha);
     }
 
-    const content = `
-# This is a test file
+    
+    const content = fs.readFileSync('test.py', 'utf8');
 
-def bitcount(n):
-  count = 0
-  while n:
-      n ^= n - 1
-      count += 1
-  return count
-    `;
     
 
     await octokit.rest.repos.createOrUpdateFileContents({
