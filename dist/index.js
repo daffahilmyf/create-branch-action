@@ -208,7 +208,7 @@ const run = async () => {
             console.log(`Branch ${newBranchName} does not exist`);
             await (0, runners_1.createBranch)(octokit, owner, repo, newBranchName, defaultBranchSha);
         }
-        const filePath = path_1.default.resolve('src/example/test.py', 'utf8');
+        const filePath = path_1.default.resolve('src/example/test.py');
         const content = fs_1.default.readFileSync(filePath, { encoding: 'utf8' });
         await octokit.rest.repos.createOrUpdateFileContents({
             owner,

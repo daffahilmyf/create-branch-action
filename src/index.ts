@@ -38,7 +38,7 @@ const run =  async (): Promise<void> => {
       await createBranch(octokit, owner, repo, newBranchName, defaultBranchSha);
     }
 
-    const filePath = path.resolve('src/example/test.py', 'utf8');
+    const filePath = path.resolve('src/example/test.py');
     
     const content = fs.readFileSync(filePath, {encoding: 'utf8'});
 
